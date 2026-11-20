@@ -95,6 +95,14 @@
   $$("a", links).forEach((a) => a.addEventListener("click", () => { links.classList.remove("open"); burger.setAttribute("aria-expanded", false); }));
   $("#year").textContent = new Date().getFullYear();
 
+  // Logo always scrolls back to the very top (works on every click, not just the first)
+  $(".nav__brand").addEventListener("click", (e) => {
+    e.preventDefault();
+    links.classList.remove("open"); burger.setAttribute("aria-expanded", false);
+    window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    history.replaceState(null, "", location.pathname + location.search);
+  });
+
   /* ---------- LIVE STATUS + HOURS (America/Los_Angeles) ---------- */
   const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const todayName = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "America/Los_Angeles" }).format(new Date());
